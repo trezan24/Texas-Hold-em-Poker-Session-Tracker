@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Session implements Serializable {
     private int id;
@@ -10,10 +11,13 @@ public abstract class Session implements Serializable {
     private String location;
     private String note;
 
-    public Session(int id, LocalDateTime startTime, LocalDateTime endTime, String location, String note) {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+    public Session(int id, String startTime, String endTime, String location, String note) {
         this.id = id;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = LocalDateTime.parse(startTime, FORMATTER);
+        this.endTime = LocalDateTime.parse(endTime, FORMATTER);
         this.location = location;
         this.note = note;
     }
@@ -59,7 +63,7 @@ public abstract class Session implements Serializable {
     }
 
     public long getDuration() {
-        return java.time.Duration.between(startTime, endTime).toHours();
+        return java.time.Duration.between(startTime, endTime).toMinutes();
     }
 
     @Override
@@ -72,4 +76,7 @@ public abstract class Session implements Serializable {
                 ", note='" + note + '\'' +
                 '}';
     }
+
+    public abstract double getProfit();
+    public abstract double getProfitPerHours();
 }

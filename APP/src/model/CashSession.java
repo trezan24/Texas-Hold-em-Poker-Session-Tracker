@@ -7,7 +7,7 @@ public class CashSession extends Session implements Serializable {
     private double buyIn;
     private double cashOut;
 
-    public CashSession(int id, LocalDateTime startTime, LocalDateTime endTime, String location, String note, double buyIn, double cashOut) {
+    public CashSession(int id, String startTime, String endTime, String location, String note, double buyIn, double cashOut) {
         super(id, startTime, endTime, location, note);
         this.buyIn = buyIn;
         this.cashOut = cashOut;
@@ -29,6 +29,10 @@ public class CashSession extends Session implements Serializable {
         this.cashOut = cashOut;
     }
 
+    public double getProfit() {
+        return cashOut - buyIn;
+    }
+
 
     @Override
     public String toString() {
@@ -36,5 +40,10 @@ public class CashSession extends Session implements Serializable {
                 "buyIn=" + buyIn +
                 ", cashOut=" + cashOut +
                 '}';
+    }
+
+    @Override
+    public double getProfitPerHours() {
+        return getProfit() / (getDuration()/60);
     }
 }
