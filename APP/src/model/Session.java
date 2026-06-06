@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Session {
+public abstract class Session implements Serializable {
     private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -59,5 +60,16 @@ public class Session {
 
     public long getDuration() {
         return java.time.Duration.between(startTime, endTime).toHours();
+    }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", location='" + location + '\'' +
+                ", note='" + note + '\'' +
+                '}';
     }
 }
